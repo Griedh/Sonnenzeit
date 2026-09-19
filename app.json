@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "Sonnenzeit",
+    "slug": "sonnenzeit",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "de.sonnenzeit.app",
+      "adaptiveIcon": { "backgroundColor": "#F6F2E9" }
+    },
+    "web": { "bundler": "metro" }
+  }
+}

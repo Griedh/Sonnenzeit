@@ -1,0 +1,44 @@
+stages:
+  - verify
+  - build
+
+default:
+  image: reactnativecommunity/react-native-android:latest
+  cache:
+    key:
+      files:
+        - package.json
+    paths:
+      - .npm/
+      - .gradle/
+  before_script:
+    - npm install --cache .npm --prefer-offline --no-audit
+
+variables:
+  CI: "true"
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+
+verify:
+  stage: verify
+  script:
+    - npm test
+    - npm run typecheck
+
+build-apk:
+  stage: build
+  needs:
+    - verify
+  script:
+    # Generate the native Android project from the committed Expo configuration.
+    - npx expo prebuild --platform android --clean
+    # Expo's generated release configuration uses the Android debug keystore by
+    # default, producing an installable APK without storing secrets in GitLab.
+    - cd android
+    - ./gradlew assembleRelease --no-daemon
+  artifacts:
+    name: "sonnenzeit-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}"
+    expose_as: "Sonnenzeit APK"
+    paths:
+      - android/app/build/outputs/apk/release/app-release.apk
+    expire_in: 30 days
+    when: on_success
