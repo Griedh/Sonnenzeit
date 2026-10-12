@@ -1,46 +1,33 @@
 ## Context
 
-Das Repository enthält eine Expo-App, ein reines Astronomie-Modul, vier Vitest-Tests
-und eine GitLab-Pipeline. Es existieren weder Specs noch Agent-Vorgaben oder ein
-Lockfile. Die Migration dokumentiert den Bestand und ändert den Entwicklungsprozess.
+An Expo app, astronomy module, four tests and GitLab APK pipeline lacked specs,
+agent guidance and a lockfile.
 
 ## Goals / Non-Goals
 
-Ziel: lokale und in CI prüfbare Specs, reproduzierbare CLI-Installation und ein
-vollständig nachvollziehbarer erster Change. Keine neuen Produktfunktionen.
+Introduce reproducible spec tooling and traceable requirements without changing the app.
 
 ## Decisions
 
-- OpenSpec 1.14.1 lokal und exakt pinnen. npm-Scripts verwenden die lokale CLI;
-  eine globale Installation ist nicht nötig. Node >=20.19 ist Voraussetzung.
-- Offizielles `spec-driven`-Schema und mit init erzeugte Codex-Skills verwenden.
-  Projektregeln separat in config.yaml und AGENTS.md pflegen.
-- Produkt-Specs nach beobachtbarem Verhalten gliedern; technische Zuordnung,
-  Prüfabdeckung und Grenzen in openspec/README.md dokumentieren.
-- Die Migration als ADDED-Delta erfassen und mit dem offiziellen Archive-Kommando
-  synchronisieren. Keine erfundenen offenen Feature-Changes anlegen.
-- npm run check bündelt strukturelle Spec-Validierung, Archiv-Task-Prüfung,
-  vorhandene Tests und Typprüfung. GitLab verwendet npm ci und das Lockfile.
+- Pin local OpenSpec 1.14.1; use the official spec-driven schema and Codex skills.
+- Keep project rules in AGENTS.md and config.yaml.
+- Organize specs by observable capability and archive the initial ADDED deltas.
+- Use npm ci in GitLab; npm run check combines specs, archived tasks, tests and types.
+- Record coverage and product limits in openspec/README.md.
 
 ## Risks / Trade-offs
 
-Strukturvalidierung beweist keine Übereinstimmung zwischen Specs und Code.
-UI-Szenarien sind derzeit manuell prüfbar; diese Migration ergänzt keine UI-Tests.
-Gerätezeitzone für Heute, UTC-Datum für Jahreszeitenmarker, inaktive Standortwahl
-und fehlende Polartag-Behandlung werden als Grenzen dokumentiert.
-Der Dependency-Audit meldet transitive Risiken; Updates mit Verhaltensänderungen
-brauchen einen separaten Change.
+Structural validation does not prove behavior. UI coverage remains manual.
+Device/UTC timezone differences, inactive location selection and unsupported polar
+conditions remain documented limits. Dependency vulnerabilities require separate review.
 
 ## Migration Plan
 
-CLI installieren und Codex initialisieren; Artefakte und Basis-Deltas erstellen;
-Scripts, CI und Anleitung ergänzen; prüfen; Tasks abschließen; archivieren;
-Basis-Specs und Archiv erneut prüfen. Rücknahme erfolgt über einen Git-Revert
-dieser zusammengehörenden Dateien; die App-Quellen bleiben unverändert.
+Initialize, document, integrate checks, verify, then archive and validate baselines.
+Revert the migration files to undo; runtime sources are unchanged.
 
 ## Validation
 
-`npm run check`, `npm run spec:list`, `npm run spec:changes` und
-`npm run spec -- status --change adopt-openspec` vor der Archivierung.
-Kein Android-Build und keine UI-Prüfung nötig, da Runtime und Expo-Konfiguration
-unverändert bleiben. Die GitLab-Pipeline wird lokal nur inhaltlich geprüft.
+npm ci, npm run check, spec lists, change status and git diff --check.
+No UI or APK execution: runtime and Expo configuration are unchanged.
+GitLab configuration was reviewed locally; actual execution requires a push.

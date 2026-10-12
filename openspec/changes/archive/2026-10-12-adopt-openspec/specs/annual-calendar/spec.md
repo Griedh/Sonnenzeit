@@ -1,58 +1,51 @@
 ## ADDED Requirements
 
 ### Requirement: German annual overview
-Die App SHALL eine deutschsprachige, scrollbar angeordnete Jahresübersicht mit
-zwölf Monatsabschnitten von JAN bis DEZ anzeigen. Jeder Tag SHALL Tagesnummer,
-deutschen Wochentagskurznamen, Sonnenaufgang, Sonnenuntergang und Tageslänge zeigen.
-Die Spalten SHALL DATUM, AUFGANG, UNTERGANG und DAUER heißen.
+The app SHALL show a scrollable chronological calendar with twelve sections JAN
+through DEZ. Rows SHALL show day number, German weekday abbreviation, sunrise,
+sunset and duration under DATUM, AUFGANG, UNTERGANG and DAUER.
 
-#### Scenario: Jahresansicht
-- WHEN die App geöffnet wird
-- THEN erscheint Licht im Jahreslauf mit allen Tagen des ausgewählten Jahres
-- AND sind die Tage chronologisch nach Monaten gruppiert
+#### Scenario: Annual view
+- WHEN the app opens
+- THEN Licht im Jahreslauf shows every selected-year date grouped by month
 
 ### Requirement: Year navigation
-Die App SHALL beim Start das aktuelle Jahr der Gerätezeitzone auswählen.
-Die Bedienelemente Vorheriges Jahr und Nächstes Jahr SHALL das Jahr um genau
-eins vermindern beziehungsweise erhöhen und Kalender und Jahreszeiten neu berechnen.
+The app SHALL initially select the device's current year. Vorheriges Jahr and
+Nächstes Jahr SHALL change it by one and recalculate dates and seasons.
 
-#### Scenario: Vorwärts und zurück
-- WHEN im Jahr 2026 Nächstes Jahr betätigt wird
-- THEN erscheint das Jahr 2027
-- WHEN danach Vorheriges Jahr betätigt wird
-- THEN erscheint erneut das Jahr 2026
+#### Scenario: Forward and back
+- WHEN Nächstes Jahr is pressed in 2026
+- THEN 2027 is displayed
+- WHEN Vorheriges Jahr is then pressed
+- THEN 2026 is displayed again
 
 ### Requirement: Berlin solar time display
-Sonnenaufgang und Sonnenuntergang SHALL im deutschen Stunden-/Minutenformat
-der Zeitzone Europe/Berlin einschließlich ihrer Sommerzeit angezeigt werden.
+Solar times SHALL use German hour/minute formatting in Europe/Berlin, including DST.
 
-#### Scenario: Berliner Sommerzeit
-- WHEN eine Sonnenzeit am 21. Juni 2026 um 04:00 UTC angezeigt wird
-- THEN lautet die Anzeige `06:00`
+#### Scenario: Summer time
+- WHEN 04:00 UTC on June 21, 2026 is displayed
+- THEN the result is `06:00`
 
-#### Scenario: Berliner Winterzeit
-- WHEN eine Sonnenzeit am 21. Dezember 2026 um 07:00 UTC angezeigt wird
-- THEN lautet die Anzeige `08:00`
+#### Scenario: Winter time
+- WHEN 07:00 UTC on December 21, 2026 is displayed
+- THEN the result is `08:00`
 
 ### Requirement: Current day highlight
-Die App SHALL bei einem Rendern den Tag hervorheben, dessen Jahres-, Monats-
-und Tagesnummer dem aktuellen Datum der Gerätezeitzone entspricht.
+On render, the app SHALL highlight the date matching the device's current date.
 
-#### Scenario: Aktuelles Jahr
-- WHEN das Jahr des aktuellen Gerätedatums angezeigt wird
-- THEN ist dessen Tageszeile dunkelgrün mit heller Schrift hervorgehoben
+#### Scenario: Current year
+- WHEN the device's current year is displayed
+- THEN today's row is dark green with light text
 
-#### Scenario: Anderes Jahr
-- WHEN ein anderes Jahr als das aktuelle Gerätejahr angezeigt wird
-- THEN ist keine Tageszeile als heute hervorgehoben
+#### Scenario: Other year
+- WHEN another year is displayed
+- THEN no row is highlighted as today
 
 ### Requirement: Fixed location and presentation
-Die App SHALL Erftstadt als Standort und die Berechnungskoordinaten
-50.81° N und 6.77° O anzeigen. Die Ansicht SHALL ein helles Farbschema und
-eine zentrierte Inhaltsbreite von höchstens 560 Layout-Einheiten verwenden.
-Die Standortanzeige SHALL im aktuellen Funktionsumfang keine Standortänderung auslösen.
+The app SHALL show Erftstadt and coordinates labeled 50.81° N, 6.77° O, use a light theme
+and centered content at most 560 layout units wide. The location control SHALL
+leave the location unchanged.
 
-#### Scenario: Standortanzeige
-- WHEN der Standort-Button betätigt wird
-- THEN bleibt der Berechnungsstandort Erftstadt
-- AND zeigt der Fußbereich weiterhin die Erftstädter Koordinaten
+#### Scenario: Location control
+- WHEN the location button is pressed
+- THEN Erftstadt and its footer coordinates remain unchanged

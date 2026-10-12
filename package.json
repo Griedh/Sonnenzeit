@@ -10,7 +10,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "spec": "openspec",
-    "spec:init": "openspec init --tools codex --profile core --language German --no-animation",
+    "spec:init": "openspec init --tools codex --profile core --language English --no-animation",
     "spec:update": "openspec update",
     "spec:list": "openspec list --specs",
     "spec:changes": "openspec list",

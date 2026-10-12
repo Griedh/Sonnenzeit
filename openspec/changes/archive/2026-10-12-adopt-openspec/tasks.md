@@ -1,12 +1,12 @@
-## 1. Einrichtung und Bestandsaufnahme
-- [x] 1.1 App, Berechnungen, Tests, Expo-Konfiguration und GitLab-Pipeline lesen.
-- [x] 1.2 OpenSpec 1.14.1 installieren und offizielle Codex-Skills erzeugen.
-- [x] 1.3 Proposal, Design und fünf Capability-Deltas aus dem Bestand erstellen.
+## 1. Setup
+- [x] 1.1 Review app, calculations, tests, Expo configuration and GitLab pipeline.
+- [x] 1.2 Install OpenSpec 1.14.1 and generate official Codex skills.
+- [x] 1.3 Write proposal, design and five capability deltas.
 
 ## 2. Integration
-- [x] 2.1 Kontext, Agent-Vorgaben und Workflow-Anleitung ergänzen.
-- [x] 2.2 npm-Scripts und deterministische GitLab-Installation mit Spec-Prüfung ergänzen.
+- [x] 2.1 Add context, agent guidance and workflow documentation.
+- [x] 2.2 Add npm scripts, lockfile installation and CI spec checks.
 
-## 3. Abschluss
-- [x] 3.1 npm run check erfolgreich ausführen und Prüfabdeckung dokumentieren.
-- [x] 3.2 Lockfile-Installation prüfen und valide Deltas für die Archivierung bereitstellen.
+## 3. Verification
+- [x] 3.1 Run npm run check and document coverage.
+- [x] 3.2 Verify lockfile installation and prepare validated deltas for archival.

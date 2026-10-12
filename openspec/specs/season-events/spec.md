@@ -1,33 +1,28 @@
 # season-events Specification
 
 ## Purpose
-Die geschätzten astronomischen Jahreszeitenereignisse und ihre Einordnung
-als deutschsprachige Marker im Jahreskalender beschreiben.
+Estimated astronomical seasons and their calendar markers.
 
 ## Requirements
 
 ### Requirement: Local astronomical season estimates
-Die Jahreszeitenberechnung SHALL für das gewählte Jahr lokal vier geschätzte
-Ereigniszeitpunkte in der Reihenfolge Frühling, Sommer, Herbst und Winter liefern.
-Frühling und Herbst SHALL als `equinox`, Sommer und Winter als `solstice`
-klassifiziert werden. Die Ergebnisse dienen als Kalendermarker.
+The calculation SHALL locally return four estimated events in spring, summer,
+autumn and winter order, classified as equinox, solstice, equinox and solstice.
 
-#### Scenario: Ereignisse 2026
-- WHEN die Jahreszeiten für 2026 berechnet werden
-- THEN liegen ihre UTC-Monate in März, Juni, September und Dezember
-- AND sind die Bezeichnungen Frühling, Sommer, Herbst und Winter
-- AND ist die Klassifikation equinox, solstice, equinox und solstice
+#### Scenario: 2026 events
+- WHEN 2026 seasons are calculated
+- THEN UTC months are March, June, September and December
+- AND names are Frühling, Sommer, Herbst and Winter with the specified classifications
 
 ### Requirement: Season markers in calendar
-Der Kalender SHALL Jahreszeitenereignisse unmittelbar vor dem Tages-Eintrag
-anzeigen, dessen UTC-Monat und UTC-Tag dem berechneten Ereignis entsprechen.
-Die Beschriftungen SHALL Frühling-Tagundnachtgleiche, Sommersonnenwende,
-Herbst-Tagundnachtgleiche und Wintersonnenwende lauten.
+The calendar SHALL place each marker immediately before its UTC event date,
+using Frühling-Tagundnachtgleiche, Sommersonnenwende, Herbst-Tagundnachtgleiche
+and Wintersonnenwende.
 
-#### Scenario: Frühjahrseintrag
-- WHEN das gewählte Jahr angezeigt wird
-- THEN steht Frühling-Tagundnachtgleiche vor dem Eintrag des UTC-Ereignistages im März
+#### Scenario: Spring marker
+- WHEN the selected year's March dates are displayed
+- THEN Frühling-Tagundnachtgleiche precedes the UTC event date
 
-#### Scenario: Sonnenwenden
-- WHEN die Monate Juni und Dezember angezeigt werden
-- THEN stehen Sommersonnenwende und Wintersonnenwende jeweils vor ihrem UTC-Ereignistag
+#### Scenario: Solstice markers
+- WHEN June and December are displayed
+- THEN Sommersonnenwende and Wintersonnenwende precede their UTC event dates

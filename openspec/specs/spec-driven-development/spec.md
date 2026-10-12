@@ -1,52 +1,47 @@
 # spec-driven-development Specification
 
 ## Purpose
-Den versionierten OpenSpec-Prozess von Anforderungen über Implementierung
-und Prüfung bis zur Synchronisierung und Archivierung beschreiben.
+Versioned OpenSpec planning, implementation, verification and archival.
 
 ## Requirements
 
 ### Requirement: Versioned spec-first changes
-Das Repository SHALL Basis-Specs, Projektkontext und Changes zusammen mit dem
-Code versionieren. Verhaltensänderungen SHALL vor ihrer Implementierung als
-Proposal, Delta-Specs und überprüfbare Tasks beschrieben werden; technische
-Entscheidungen SHALL bei Bedarf im Design festgehalten werden.
+The repository SHALL version specs, context and changes with code. Behavioral
+changes SHALL have a proposal, delta specs and verifiable tasks before implementation;
+technical decisions SHALL have a design where needed.
 
-#### Scenario: Neue Funktion
-- WHEN eine neue Funktion umgesetzt wird
-- THEN beschreibt ein Change vor den Codeänderungen ihre Anforderungen und Szenarien
-- AND werden Tasks und Artefakte während der Umsetzung gepflegt
+#### Scenario: New feature
+- WHEN a feature is implemented
+- THEN a change describes requirements and scenarios before code edits
+- AND artifacts and tasks stay current during implementation
 
-#### Scenario: Reine Textkorrektur
-- WHEN ausschließlich ein Tippfehler ohne Verhaltensänderung korrigiert wird
-- THEN ist kein eigener Change erforderlich
+#### Scenario: Typo fix
+- WHEN only a typo is corrected without changing behavior
+- THEN no change is required
 
 ### Requirement: Local reproducible tooling
-OpenSpec SHALL als exakt versionierte Entwicklungsabhängigkeit über npm-Scripts
-verfügbar sein. Das Repository SHALL die offiziellen Codex-Skills bereitstellen.
-Eine globale CLI-Installation MUST für den dokumentierten Workflow entbehrlich sein.
+OpenSpec SHALL be an exactly pinned development dependency accessible through
+npm scripts. Official Codex skills SHALL be versioned. A global CLI MUST be unnecessary.
 
-#### Scenario: Neue Arbeitskopie
-- WHEN mit Node >=20.19 die Abhängigkeiten per npm ci installiert werden
-- THEN kann npm run spec -- --version die gepinnte CLI-Version ausgeben
-- AND stehen die versionierten Skills unter .agents/skills/ zur Verfügung
+#### Scenario: Fresh checkout
+- WHEN npm ci runs with Node >=20.19
+- THEN npm run spec -- --version reports the pinned version
+- AND .agents/skills/ contains the workflows
 
 ### Requirement: Combined verification
-`npm run check` SHALL strikte OpenSpec-Validierung, Archiv-Task-Prüfung,
-automatisierte Tests und Typprüfung ausführen und bei einem Fehler fehlschlagen.
-Die Dokumentation SHALL strukturelle Prüfung von tatsächlicher Verhaltensprüfung unterscheiden.
+npm run check SHALL run strict spec validation, archived-task validation, tests
+and type checking, failing on any error. Documentation SHALL distinguish structural
+validation from behavioral verification.
 
-#### Scenario: Lokale Abschlussprüfung
-- WHEN npm run check ausgeführt wird
-- THEN werden Specs und Changes, archivierte Tasks, Tests und Typen geprüft
-- AND ist der Exit-Code nur bei erfolgreicher Gesamtprüfung null
+#### Scenario: Local checks
+- WHEN npm run check runs
+- THEN all four checks execute and success requires every check to pass
 
 ### Requirement: Completed change archival
-Fertig umgesetzte und geprüfte Changes SHALL mit synchronisierten Basis-Specs
-archiviert werden. Die Archivierung SHALL Proposal, Design, Delta-Specs und
-abgeschlossene Tasks als nachvollziehbare Historie erhalten.
+Completed, verified changes SHALL sync into baseline specs and be archived with
+their proposal, design, deltas and completed tasks.
 
-#### Scenario: Change abschließen
-- WHEN ein vollständig umgesetzter Change archiviert wird
-- THEN enthalten die Basis-Specs seine neuen Anforderungen
-- AND liegt der Change im datierten Archiv unter openspec/changes/archive/
+#### Scenario: Archive change
+- WHEN a completed change is archived
+- THEN baseline specs contain its requirements
+- AND its artifacts remain in the dated openspec/changes/archive/ directory

@@ -1,22 +1,19 @@
 ## ADDED Requirements
 
 ### Requirement: Verification before APK build
-Die GitLab-Pipeline SHALL vor dem APK-Build die OpenSpec-Struktur, abgeschlossene
-Archiv-Tasks, automatisierten Tests und TypeScript-Typen prüfen.
-Ein fehlgeschlagener Prüfschritt MUST den nachgelagerten APK-Build verhindern.
-Abhängigkeiten SHALL aus dem versionierten npm-Lockfile installiert werden.
+GitLab SHALL install dependencies from the npm lockfile and verify specs,
+archived tasks, tests and TypeScript before building. Failed checks MUST block the APK job.
 
-#### Scenario: Fehlgeschlagene Prüfung
-- WHEN Spec-Validierung, Archiv-Prüfung, Test oder Typprüfung fehlschlägt
-- THEN schlägt der verify-Job fehl und build-apk läuft nicht
+#### Scenario: Failed verification
+- WHEN any verification check fails
+- THEN verify fails and build-apk does not run
 
 ### Requirement: Installable Android test artifact
-Nach erfolgreicher Prüfung SHALL die Pipeline aus der Expo-Konfiguration ein
-Android-Projekt erzeugen und eine installierbare Release-APK für `de.sonnenzeit.app`
-bereitstellen. Die APK SHALL als Sonnenzeit APK mit 30 Tagen Aufbewahrung erscheinen.
-Die derzeitige APK SHALL den generierten Debug-Schlüssel für Testinstallationen verwenden.
+After verification, the pipeline SHALL generate Android from Expo and provide
+a release APK for de.sonnenzeit.app as Sonnenzeit APK, retained for 30 days.
+The test APK SHALL use the generated debug signing key.
 
-#### Scenario: Erfolgreicher Build
-- WHEN verify erfolgreich ist und der Android-Build gelingt
-- THEN ist android/app/build/outputs/apk/release/app-release.apk als Job-Artefakt verfügbar
-- AND ist das Artefakt für Testinstallationen mit dem Debug-Schlüssel signiert
+#### Scenario: Successful build
+- WHEN verification and the Android build succeed
+- THEN android/app/build/outputs/apk/release/app-release.apk is available as a job artifact
+- AND it is debug-signed for test installation

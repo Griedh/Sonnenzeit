@@ -1,78 +1,45 @@
-# Spec-driven Entwicklung
+# OpenSpec workflow
 
-Die Basis-Specs unter `specs/` beschreiben den bestehenden Verhaltensvertrag.
-Neue oder geänderte Anforderungen stehen zunächst als Deltas in `changes/<name>/`.
-Nach Implementierung und Prüfung synchronisiert die Archivierung diese Deltas
-in die Basis-Specs und erhält die Historie unter `changes/archive/`.
+`specs/` is the behavior contract; `changes/<name>/` holds proposed deltas.
+Archiving syncs deltas into specs and preserves the change under `changes/archive/`.
+Write repository artifacts in English; keep product labels in German.
 
-## Einstieg und Ablauf
+## Workflow
 
-1. `npm ci` mit Node.js >=20.19.0 ausführen. OpenSpec ist lokal auf 1.14.1 gepinnt.
-2. `npm run spec:list` und `npm run spec:changes` ausführen; betroffene Specs lesen.
-3. In Codex `openspec-propose` verwenden oder `npm run spec:new -- <name>` ausführen.
-   Beim manuellen Weg die Vorlage mit
-   `npm run spec -- instructions proposal --change <name>` lesen, anschließend
-   entsprechend `specs`, `design` und `tasks` abfragen.
-4. Proposal beschreibt Warum und Umfang; Delta-Specs beschreiben Verhalten mit
-   SHALL/MUST und WHEN/THEN-Szenarien. Design hält technische Entscheidungen fest;
-   Tasks enthalten kleine nummerierte Checkbox-Aufgaben und ihre Prüfungen.
-5. `npm run spec:validate` ausführen. Den Plan prüfen und mit
-   `openspec-apply-change` beziehungsweise dem autorisierten Umsetzungsauftrag
-   implementieren. Artefakte bei Erkenntnissen anpassen, erledigte Tasks abhaken.
-6. `npm run check` ausführen. Betroffene UI-Szenarien mit `npm run web` oder
-   `npm run android` prüfen; tatsächliche Ergebnisse im Change dokumentieren.
-7. `npm run spec:archive -- <name>` ausführen und anschließend `npm run check`.
+1. Run `npm ci` (Node >=20.19.0).
+2. Read relevant specs; list work with `npm run spec:list` and `npm run spec:changes`.
+3. Use Codex's `openspec-propose`, or `npm run spec:new -- <name>`.
+   Get templates with `npm run spec -- instructions <artifact> --change <name>`.
+4. Write proposal, delta specs, tasks and design where needed; run `npm run spec:validate`.
+5. Implement authorized work using `openspec-apply-change`; keep artifacts and tasks current.
+6. Run `npm run check` and verify affected UI scenarios using `npm run web` or `npm run android`.
+7. Run `npm run spec:archive -- <name>`, then `npm run check`.
 
-`openspec-propose` dient der Planung; für einen reinen Planungsauftrag folgt
-die Umsetzung erst auf einen Umsetzungsauftrag. Reine Tippfehler/Formatierung
-brauchen keinen Change. Tooling ohne neue Anforderungen kann mit begründetem
-`skip_specs: true` in `.openspec.yaml` arbeiten.
+Planning-only requests stop after artifacts. Typo/formatting edits need no change.
+Tooling changes may use justified `skip_specs: true`.
+Refresh generated skills with `npm run spec:update`; restore Codex integration with
+`npm run spec:init`. Reload Codex after initial setup.
 
-## Zuordnung und Prüfabdeckung
+## Coverage
 
-| Capability | Umsetzung | Vorhandene Prüfung |
+| Capability | Implementation | Existing checks |
 | --- | --- | --- |
-| solar-calculations | src/astronomy.ts | Vitest: Sommer-Tageslänge, Schaltjahr, Tagesvergleich, Dauerformat |
-| season-events | src/astronomy.ts, App.tsx | Vitest: Ereignismonate 2026; Anzeige manuell |
-| annual-calendar | App.tsx | Quellcode-Abgleich bei Migration; UI-Szenarien manuell |
-| android-delivery | .gitlab-ci.yml, app.json | Pipeline-Ausführung in GitLab; bei Migration nur Quellcode-Abgleich |
-| spec-driven-development | package.json, AGENTS.md, config.yaml, .agents/skills/ | CLI-Validierung, npm run check und Archiv-Prüfung |
+| solar-calculations | src/astronomy.ts | Summer duration, leap year, closest day, duration format |
+| season-events | src/astronomy.ts, App.tsx | 2026 event months; UI requires manual checks |
+| annual-calendar | App.tsx | Source review; UI requires manual checks |
+| android-delivery | .gitlab-ci.yml, app.json | Source review; actual build runs in GitLab |
+| spec-driven-development | package.json, AGENTS.md, config.yaml, .agents/skills/ | CLI and npm run check |
 
-Die vier bestehenden Tests decken nicht alle Spec-Szenarien ab. Insbesondere
-UTC-Normalisierung, Jahrestages-Reihenfolge, Gleichstand, leere Tagesliste,
-Minutenübertrag und UI-Verhalten wurden für diese Migration anhand des Codes
-beschrieben. Sie wurden hier nicht als neue automatische Tests umgesetzt.
-OpenSpec prüft die Struktur der Anforderungen; eine grüne Validierung beweist
-weder Produktverhalten noch Testabdeckung. Betroffene Szenarien bei künftigen
-Änderungen gezielt automatisieren oder manuell prüfen.
+The four tests do not cover every scenario. UTC normalization, ordering, ties,
+empty input, minute rollover and UI behavior were documented from source.
+OpenSpec validates structure, not behavior or test coverage.
 
-## Grenzen des bestehenden Produkts
+## Current limits
 
-- Erftstadt ist fest eingestellt. Der Standort-Button löst keine Aktion aus;
-  Standortwahl, Geolokalisierung und Persistenz sind nicht implementiert.
-- Sonnenzeiten werden für Europe/Berlin formatiert. Startjahr und Heute verwenden
-  die Gerätezeitzone; ein automatischer Datumswechsel ohne Rendern ist nicht vorgesehen.
-- Jahreszeitenmarker werden am UTC-Ereignistag eingeordnet. Die Schätzwerte sind
-  keine hochpräzisen astronomischen Zeitangaben.
-- Die Sonnenberechnung enthält weder Eingabevalidierung noch Polartag/-nacht-
-  Behandlung. Die Specs garantieren keine Genauigkeit außerhalb des beschriebenen Bereichs.
-- Die APK verwendet einen Debug-Schlüssel; Store-Veröffentlichung ist kein Bestandteil.
+- Fixed Erftstadt location; the location button is inactive.
+- Initial year/today use device time; no automatic midnight refresh.
+- Season markers use UTC dates and approximate event times.
+- No input validation or polar-day/night handling; no broader accuracy guarantee.
+- APKs use debug signing; store publication is outside the current scope.
 
-Diese Grenzen sind keine bereits autorisierten Feature-Aufträge. Ihre Änderung
-beginnt mit einem separaten Change und passenden Akzeptanzszenarien.
-
-## Weitere Kommandos
-
-```bash
-npm run spec -- status --change <name>
-npm run spec -- show <name>
-npm run spec:validate
-npm run spec:validate:archive
-npm run spec:update
-```
-
-`spec:update` aktualisiert die generierten Skills. Für die Neueinrichtung oder
-gezielte Wiederherstellung der Codex-Integration steht `npm run spec:init` bereit.
-Projektspezifische Regeln gehören in AGENTS.md und config.yaml.
-
-Grundlage ist der [offizielle OpenSpec-Workflow](https://github.com/Fission-AI/OpenSpec).
+Changes to these limits require their own requirements and validation.
