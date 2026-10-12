@@ -9,6 +9,6 @@
       "package": "de.sonnenzeit.app",
       "adaptiveIcon": { "backgroundColor": "#F6F2E9" }
     },
-    "web": { "bundler": "metro" }
+    "web": { "bundler": "metro", "output": "single" }
   }
 }

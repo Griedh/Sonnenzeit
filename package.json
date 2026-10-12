@@ -7,6 +7,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "web": "expo start --web",
+    "build": "npm run check && expo export --platform web",
+    "preview": "expo serve",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "spec": "openspec",

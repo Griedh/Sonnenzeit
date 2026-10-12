@@ -9,6 +9,8 @@ context: |
   Initial year and today highlighting use the device timezone.
   Location selection, persistence, input validation and polar-day handling are absent.
   Checks: npm run check (specs, archived tasks, Vitest, types); GitLab then builds a test APK.
+  Web: npm run build checks and exports a single-page bundle to dist; npm run preview serves it.
+  Vercel uses vercel.json and Node 24; no server, runtime secrets or offline reload support.
 
 rules:
   proposal:
