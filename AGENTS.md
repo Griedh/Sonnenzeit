@@ -3,6 +3,9 @@
 Maintain documentation, specs and code comments in English. Keep the app UI German.
 
 Read `openspec/config.yaml`, relevant `openspec/specs/` and active changes first.
+Follow [CONTRIBUTING.md](CONTRIBUTING.md) for skill selection and commit structure.
+Keep commits focused, include matching specs/tests/docs, and stage only relevant files.
+Commit or push only when requested; an apply request authorizes implementation and verification.
 
 - Start behavioral changes with `npm run spec:new -- <name>`.
 - Write proposal, delta specs, tasks and design where needed before implementation.

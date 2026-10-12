@@ -3,6 +3,8 @@
 `specs/` is the behavior contract; `changes/<name>/` holds proposed deltas.
 Archiving syncs deltas into specs and preserves the change under `changes/archive/`.
 Write repository artifacts in English; keep product labels in German.
+See [CONTRIBUTING.md](../CONTRIBUTING.md) for skill prompts, applying/resuming changes
+and commit conventions.
 
 ## Workflow
 
@@ -28,6 +30,7 @@ Refresh generated skills with `npm run spec:update`; restore Codex integration w
 | season-events | src/astronomy.ts, App.tsx | 2026 event months; UI requires manual checks |
 | annual-calendar | App.tsx | Source review; UI requires manual checks |
 | android-delivery | .gitlab-ci.yml, app.json | Source review; actual build runs in GitLab |
+| web-delivery | package.json, app.json, vercel.json | Production export, asset requests, mobile/desktop browser and offline navigation |
 | spec-driven-development | package.json, AGENTS.md, config.yaml, .agents/skills/ | CLI and npm run check |
 
 The four tests do not cover every scenario. UTC normalization, ordering, ties,

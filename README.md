@@ -15,7 +15,8 @@ npm run check  # specs, archived tasks, tests, types
 
 ## Changes
 
-Use [OpenSpec](openspec/README.md) before changing behavior.
+Follow [CONTRIBUTING.md](CONTRIBUTING.md) for skills, implementation, verification
+and commits. Use [OpenSpec](openspec/README.md) before changing behavior.
 Agent instructions: [AGENTS.md](AGENTS.md).
 
 ## Web build and Vercel
