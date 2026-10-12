@@ -1,0 +1,44 @@
+schema: spec-driven
+
+context: |
+  Sonnenzeit ist eine deutschsprachige, offline-fähige Expo-/React-Native-App
+  (Expo 54, React 19, TypeScript strict) für Android und Web.
+  App.tsx zeigt einen Jahreskalender für Erftstadt (50.81 N, 6.77 O).
+  src/astronomy.ts berechnet Sonnenzeiten und astronomische Jahreszeiten lokal.
+  Tagesdaten verwenden UTC-Kalendertage; Sonnenzeiten erscheinen in Europe/Berlin.
+  Jahresauswahl und Heute-Markierung verwenden derzeit die Gerätezeitzone.
+  Der Standort-Button ist ein Platzhalter, keine implementierte Standortwahl.
+  Polartag/-nacht, Eingabevalidierung, Standortpersistenz und exakte astronomische
+  Zeitkorrekturen sind derzeit nicht implementiert. Keine unbelegte Genauigkeit versprechen.
+  Tests: Vitest in src/astronomy.test.ts; Typprüfung: tsc --noEmit.
+  GitLab CI prüft Specs, Tests und Typen vor dem Android-APK-Build.
+  Artefakte auf Deutsch schreiben; OpenSpec-Strukturüberschriften und
+  SHALL/MUST sowie WHEN/THEN in Englisch belassen.
+
+rules:
+  proposal:
+    - Bestehende Capability-Namen aus openspec/specs verwenden.
+    - Ziel, Umfang und ausdrücklich ausgeschlossenen Umfang beschreiben.
+  specs:
+    - Beobachtbares Verhalten mit konkreten WHEN/THEN-Szenarien spezifizieren.
+    - Ist-Verhalten, bekannte Grenzen und neue Anforderungen unterscheiden.
+    - MODIFIED Requirements vollständig mit allen weiter gültigen Szenarien schreiben.
+  design:
+    - Auswirkungen auf Offline-Betrieb, UTC-Kalendertage und Europe/Berlin prüfen.
+    - Betroffene Dateien, Entscheidungen und passende Validierung beschreiben.
+  tasks:
+    - Kleine nummerierte Checkbox-Aufgaben mit überprüfbarem Ergebnis erstellen.
+    - Relevante Tests und Dokumentation bei der jeweiligen Implementierung einplanen.
+    - Spec-Validierung, Tests und Typprüfung als Abschlusskontrolle einplanen.
+
+operations:
+  apply:
+    guidance:
+      - Vor Codeänderungen Proposal, Delta-Specs, Design und Tasks lesen.
+      - Artefakte bei neuen Erkenntnissen aktualisieren und nur erledigte Tasks abhaken.
+      - npm run check ausführen und betroffene UI-Szenarien manuell prüfen.
+  archive:
+    guidance:
+      - Nur fertig umgesetzte und geprüfte Changes archivieren.
+      - Delta-Specs synchronisieren und danach npm run check ausführen.
+

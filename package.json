@@ -8,7 +8,20 @@
     "android": "expo start --android",
     "web": "expo start --web",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "spec": "openspec",
+    "spec:init": "openspec init --tools codex --profile core --language German --no-animation",
+    "spec:update": "openspec update",
+    "spec:list": "openspec list --specs",
+    "spec:changes": "openspec list",
+    "spec:new": "openspec new change",
+    "spec:validate": "openspec validate --all --strict --no-interactive",
+    "spec:validate:archive": "openspec validate --archived --strict --no-interactive",
+    "spec:archive": "openspec archive",
+    "check": "npm run spec:validate && npm run spec:validate:archive && npm test && npm run typecheck"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
@@ -21,6 +34,7 @@
     "react-native-web": "^0.21.0"
   },
   "devDependencies": {
+    "@fission-ai/openspec": "1.14.1",
     "@types/react": "~19.1.10",
     "typescript": "~5.9.2",
     "vitest": "^3.2.4"

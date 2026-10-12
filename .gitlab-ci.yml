@@ -7,12 +7,12 @@ default:
   cache:
     key:
       files:
-        - package.json
+        - package-lock.json
     paths:
       - .npm/
       - .gradle/
   before_script:
-    - npm install --cache .npm --prefer-offline --no-audit
+    - npm ci --include=dev --cache .npm --prefer-offline --no-audit
 
 variables:
   CI: "true"
@@ -21,8 +21,7 @@ variables:
 verify:
   stage: verify
   script:
-    - npm test
-    - npm run typecheck
+    - npm run check
 
 build-apk:
   stage: build
