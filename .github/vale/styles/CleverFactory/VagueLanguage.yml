@@ -1,0 +1,6 @@
+extends: existence
+message: "Clarify '%s': use a measurable result or a defined domain term."
+level: warning
+ignorecase: true
+tokens:
+  - '\b(?:appropriate(?:ly)?|gracefully|quickly|intuitive|user-friendly|as needed|where possible)\b'

@@ -1,0 +1,33 @@
+name: CleverFactory spec language (pilot)
+
+on:
+  pull_request:
+    paths:
+      - "openspec/specs/**"
+      - "openspec/config.yaml"
+      - "docs/spec-language/**"
+      - ".vale.ini"
+      - ".github/vale/**"
+      - ".github/workflows/spec-language.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  vale:
+    name: Vale - warning only
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint existing domain specifications
+        uses: vale-cli/vale-action@v3
+        with:
+          files: '["openspec/specs/solar-calculations/spec.md","openspec/specs/season-events/spec.md","openspec/specs/annual-calendar/spec.md"]'
+          sync: false
+          filter_mode: nofilter
+          fail_level: none
+          level: warning
+          min_alert_level: warning
