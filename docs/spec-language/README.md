@@ -5,8 +5,9 @@ inspired by ASD-STE100 principles; it is **not** a claim of ASD-STE100 conformit
 EARS is used for test scenarios. OpenSpec remains the authoritative format.
 
 This draft PR now contains an editorial rewrite of four existing requirements.
-It retains all pre-existing scenarios, adds scenarios for split requirements and
-does not change runtime code. The examples below compare `main` with this PR.
+It retains all pre-existing scenarios and adds executable tests for
+the offline and Berlin-time scenarios. The UI now calls a shared formatter
+extracted from `App.tsx`; the formatter has the same Intl configuration. The examples below compare `main` with this PR.
 All rewrites remain subject to human semantic review before merging.
 
 ## Working rules
@@ -89,9 +90,13 @@ The summer/winter scenarios are retained; the new time-format scenario
 expresses `HH:mm`. `App.tsx` currently uses `Intl.DateTimeFormat("de-DE",
 { timeZone: "Europe/Berlin", hour: "2-digit", minute: "2-digit" })`.
 
-Review: Confirm the `HH:mm` presentation on all supported runtimes, especially
-around midnight and daylight-saving transitions. No application change is
-included to enforce any additional guarantee.
+Automated tests exercise `src/solarTime.ts`, the same formatter used by both
+sunrise and sunset rows in `App.tsx`. Cases include both summer/winter times,
+before/after the March and October DST transitions, and midnight `00:05`.
+
+Review: Vitest executes the formatter in Node with its ICU/tzdata. This is
+**not** proof that every Android/Web Intl runtime formats the same way;
+verify the target runtimes separately when this reaches release testing.
 
 ## Controlled vocabulary – initial candidates
 
@@ -120,8 +125,10 @@ irrelevant findings. Rules are versioned locally in
 
 `vale-cli/vale-action@v3` runs on pull requests and manually via
 GitHub Actions. It reports warnings but **does not fail the build**.
-No runtime source code, tests, dependencies or app features are changed.
-The existing scenario texts are preserved when requirements are split.
+The only runtime refactor moves the existing `Intl.DateTimeFormat` setup
+into `src/solarTime.ts` and calls it from both UI locations; no intentional
+product behavior change. Existing scenarios remain, with DST and midnight
+examples added.
 
 Run locally after installing [Vale](https://vale.sh/):
 
@@ -132,14 +139,29 @@ vale --config=.vale.ini openspec/specs/solar-calculations/spec.md \
 ```
 
 The workflow also runs `npm run check` (OpenSpec, archived tasks, Vitest
-and TypeScript) in a separate job to verify that the editorial rewrites
-do not break the existing project checks.
+and TypeScript) in a separate job to verify that the revised specs and
+new tests pass together.
+
+### Executable traceability (pilot)
+
+| Scenario / invariant | Executable test | Limit |
+|---|---|---|
+| Offline solar calculation | `src/astronomy.test.ts` – fetch blocked, no API key argument | Guards `fetch`, not all network transports |
+| Same UTC date returns same result | `src/astronomy.test.ts` – UTC time independence | Two sample instants |
+| Empty daylight comparison | `src/astronomy.test.ts` – German error text | Verifies present behavior |
+| Summer/winter Berlin conversion | `src/solarTime.test.ts` | Node Intl runtime |
+| Spring/autumn 2026 clock change | `src/solarTime.test.ts` | Node Intl runtime |
+| German `HH:mm`, including midnight | `src/solarTime.test.ts` | Node Intl runtime; UI uses shared formatter |
+
+This tests the formatter actually called by the application, without claiming
+to have rendered Android or Web UI in Vitest.
 
 ## Next phase
 
 1. Review the four rewritten requirements and their split-out subrequirements
-   for semantic equivalence, including the added offline and format scenarios.
-2. Record false positives and undefined vocabulary in the Vale check.
+   for semantic equivalence, including the executable offline, DST and format cases.
+2. Run and inspect the additional CI test cases; record Vale false positives
+   and undefined vocabulary.
 3. Keep the PR as a draft until reviewers confirm that no implementation
    guarantees or business behavior were added unintentionally.
 4. Only then consider enforcing deterministic rules; leave semantic review

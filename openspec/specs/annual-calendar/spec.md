@@ -36,6 +36,18 @@ including daylight saving time.
 - WHEN 07:00 UTC on December 21, 2026 is displayed
 - THEN the result is `08:00`
 
+#### Scenario: Spring daylight-saving transition
+- WHEN 00:59 UTC on March 29, 2026 is displayed
+- THEN the result is `01:59`
+- WHEN 01:00 UTC on March 29, 2026 is displayed
+- THEN the result is `03:00`
+
+#### Scenario: Autumn daylight-saving transition
+- WHEN 00:59 UTC on October 25, 2026 is displayed
+- THEN the result is `02:59`
+- WHEN 01:00 UTC on October 25, 2026 is displayed
+- THEN the result is `02:00`
+
 ### Requirement: German solar time format
 The calendar SHALL show solar times using the German 24-hour clock with two-digit
 hours and minutes.
@@ -43,6 +55,10 @@ hours and minutes.
 #### Scenario: Hour-and-minute format
 - WHEN a solar time is shown in the calendar
 - THEN its displayed format is `HH:mm`
+
+#### Scenario: Midnight formatting
+- WHEN 22:05 UTC on June 21, 2026 is displayed
+- THEN the result is `00:05`
 
 ### Requirement: Current day highlight
 On render, the app SHALL highlight the date matching the device's current date.

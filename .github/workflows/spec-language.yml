@@ -4,6 +4,11 @@ on:
   pull_request:
     paths:
       - "openspec/specs/**"
+      - "src/**"
+      - "App.tsx"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
       - "openspec/config.yaml"
       - "docs/spec-language/**"
       - ".vale.ini"

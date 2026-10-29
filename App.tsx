@@ -11,16 +11,11 @@ import {
   View,
 } from "react-native";
 import { formatDuration, getDaysOfYear, getSeasonEvents, SunDay } from "./src/astronomy";
+import { formatSolarTime } from "./src/solarTime";
 
 const LOCATION = { name: "Erftstadt", latitude: 50.81, longitude: 6.77 };
 const MONTHS = ["JAN", "FEB", "MÄR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEZ"];
 const WEEKDAYS = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-
-const time = new Intl.DateTimeFormat("de-DE", {
-  timeZone: "Europe/Berlin",
-  hour: "2-digit",
-  minute: "2-digit",
-});
 
 function DayRow({ day, today }: { day: SunDay; today: boolean }) {
   const date = day.date;
@@ -32,11 +27,11 @@ function DayRow({ day, today }: { day: SunDay; today: boolean }) {
       </View>
       <View style={styles.sunCell}>
         <MaterialCommunityIcons name="weather-sunset-up" size={19} color={today ? "#fff" : "#D68B42"} />
-        <Text style={[styles.sunTime, today && styles.todayText]}>{time.format(day.sunrise)}</Text>
+        <Text style={[styles.sunTime, today && styles.todayText]}>{formatSolarTime(day.sunrise)}</Text>
       </View>
       <View style={styles.sunCell}>
         <MaterialCommunityIcons name="weather-sunset-down" size={19} color={today ? "#fff" : "#7E6A9B"} />
-        <Text style={[styles.sunTime, today && styles.todayText]}>{time.format(day.sunset)}</Text>
+        <Text style={[styles.sunTime, today && styles.todayText]}>{formatSolarTime(day.sunset)}</Text>
       </View>
       <Text style={[styles.duration, today && styles.todayText]}>{formatDuration(day.daylightMinutes)}</Text>
     </View>
