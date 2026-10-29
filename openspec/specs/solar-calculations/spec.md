@@ -6,8 +6,8 @@ Local solar times, annual data and daylight comparison for Erftstadt.
 ## Requirements
 
 ### Requirement: Offline solar calculation
-The calculation SHALL return sunrise, sunset and daylight minutes locally for a
-valid UTC date at Erftstadt (50.81 N, 6.77 E), without network access or API keys.
+For a valid UTC date, the calculation SHALL return sunrise time, sunset time,
+and daylight duration for Erftstadt (50.81 N, 6.77 E).
 
 #### Scenario: Summer in Erftstadt
 - WHEN June 21, 2026 is calculated for Erftstadt
@@ -17,8 +17,16 @@ valid UTC date at Erftstadt (50.81 N, 6.77 E), without network access or API key
 - WHEN different times on the same UTC date are calculated
 - THEN solar times and duration match and the result date is UTC midnight
 
+### Requirement: Solar calculation without network access
+The calculation SHALL produce the solar results without network access or API keys.
+
+#### Scenario: Offline calculation
+- WHEN June 21, 2026 is calculated for Erftstadt without network access
+- THEN sunrise, sunset, and daylight duration are returned without an API key
+
 ### Requirement: Complete annual data
-Annual data SHALL contain every UTC date once, in order, including leap days.
+The annual result SHALL contain each UTC date of the selected year exactly once,
+in chronological order.
 
 #### Scenario: Ordinary year
 - WHEN 2026 is calculated for Erftstadt
@@ -29,8 +37,8 @@ Annual data SHALL contain every UTC date once, in order, including leap days.
 - THEN it contains 366 dates including February 29
 
 ### Requirement: Closest daylight to twelve hours
-The comparison SHALL return the day nearest to 720 daylight minutes, keeping the
-first on ties. It MUST reject an empty list.
+The comparison SHALL return the first day with the smallest absolute difference
+from 720 daylight minutes.
 
 #### Scenario: Annual comparison
 - WHEN Erftstadt's 2028 dates are compared
@@ -39,6 +47,9 @@ first on ties. It MUST reject an empty list.
 #### Scenario: Tie
 - WHEN two days share the minimum difference
 - THEN the first is returned
+
+### Requirement: Empty daylight comparison input
+The comparison SHALL reject an empty input list.
 
 #### Scenario: Empty input
 - WHEN an empty list is compared

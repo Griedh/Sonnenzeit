@@ -4,9 +4,10 @@
 inspired by ASD-STE100 principles; it is **not** a claim of ASD-STE100 conformity.
 EARS is used for test scenarios. OpenSpec remains the authoritative format.
 
-The existing domain specs are intentionally **unchanged** in this first PR. The
-examples below demonstrate clearer wording and identify assumptions that need
-human review. Do not silently turn these drafts into product requirements.
+This draft PR now contains an editorial rewrite of four existing requirements.
+It retains all pre-existing scenarios, adds scenarios for split requirements and
+does not change runtime code. The examples below compare `main` with this PR.
+All rewrites remain subject to human semantic review before merging.
 
 ## Working rules
 
@@ -21,7 +22,7 @@ human review. Do not silently turn these drafts into product requirements.
 7. Avoid real personal data or credentials in examples.
 8. Human reviewers decide whether the meaning and tests are correct.
 
-## Existing examples and proposed rewrites (not yet adopted)
+## Before and after: four requirements rewritten on this branch
 
 ### 1. Offline solar calculation
 
@@ -29,22 +30,26 @@ Current: "The calculation SHALL return sunrise, sunset and daylight minutes
 locally for a valid UTC date at Erftstadt ..., without network access or API
 keys."
 
-Proposed separation:
-- "The calculation SHALL return sunrise time, sunset time, and daylight
-  duration for each valid UTC date at Erftstadt."
-- "The calculation SHALL calculate these values without network access."
+Rewritten as two requirements:
+- "For a valid UTC date, the calculation SHALL return sunrise time, sunset
+  time, and daylight duration for Erftstadt (50.81 N, 6.77 E)."
+- "The calculation SHALL produce the solar results without network access or
+  API keys."
 
-Review: Define the accepted input format and what "valid UTC date" means.
-The fixed coordinates are **50.81 N, 6.77 E**. An API-key constraint is
-implementation-related unless users must supply no credentials.
+The existing summer and UTC-time-independence scenarios are retained. A new
+offline scenario makes the existing no-network/no-API-key expectation visible.
+
+Review: Define "valid UTC date" and the supported date range. The API-key
+constraint is preserved intentionally; confirm whether this belongs in the
+domain contract or a system-level security/operational requirement.
 
 ### 2. Complete annual data
 
 Current: "Annual data SHALL contain every UTC date once, in order, including
 leap days."
 
-Proposed: "The annual result SHALL contain one entry for each UTC date in the
-selected year, in chronological order."
+Rewritten: "The annual result SHALL contain each UTC date of the selected
+year exactly once, in chronological order."
 
 Scenarios to retain:
 - 2026 has 365 entries, from January 1 through December 31.
@@ -57,28 +62,36 @@ Review: Confirm whether an invalid year needs a specified error response.
 Current: "The comparison SHALL return the day nearest to 720 daylight minutes,
 keeping the first on ties. It MUST reject an empty list."
 
-Proposed separation:
+Rewritten as two requirements:
 - "The comparison SHALL return the first day with the smallest absolute
   difference from 720 daylight minutes."
 - "The comparison SHALL reject an empty input list."
 
-Scenarios to retain: annual comparison, equal differences and empty input.
-Review: Preserve the existing German error text as an external contract only
-if consumers rely on it. Do not change the runtime behavior as part of this
-writing-style pilot.
+The annual-comparison and tie scenarios stay under the original requirement.
+The empty-input scenario moves to the new requirement, preserving the original
+German error text. This is an editorial split, **not** an error-handling change.
+
+Review: Confirm whether the error message is a supported external contract,
+or simply documents the current implementation.
 
 ### 4. Berlin solar time display
 
 Current: "Solar times SHALL use German hour/minute formatting in
 Europe/Berlin, including DST."
 
-Proposed separation:
-- "The display SHALL convert each solar time to the Europe/Berlin time zone."
-- "The display SHALL show each converted solar time using a 24-hour clock."
+Rewritten as two requirements:
+- "The calendar SHALL display solar times in the Europe/Berlin time zone,
+  including daylight saving time."
+- "The calendar SHALL show solar times using the German 24-hour clock with
+  two-digit hours and minutes."
 
-Scenarios to retain: June 21, 2026 04:00 UTC → 06:00; December 21, 2026
-07:00 UTC → 08:00. Review: Specify the desired formatting, including leading
-zeroes and invalid inputs, before adopting a revised requirement.
+The summer/winter scenarios are retained; the new time-format scenario
+expresses `HH:mm`. `App.tsx` currently uses `Intl.DateTimeFormat("de-DE",
+{ timeZone: "Europe/Berlin", hour: "2-digit", minute: "2-digit" })`.
+
+Review: Confirm the `HH:mm` presentation on all supported runtimes, especially
+around midnight and daylight-saving transitions. No application change is
+included to enforce any additional guarantee.
 
 ## Controlled vocabulary – initial candidates
 
@@ -108,6 +121,7 @@ irrelevant findings. Rules are versioned locally in
 `vale-cli/vale-action@v3` runs on pull requests and manually via
 GitHub Actions. It reports warnings but **does not fail the build**.
 No runtime source code, tests, dependencies or app features are changed.
+The existing scenario texts are preserved when requirements are split.
 
 Run locally after installing [Vale](https://vale.sh/):
 
@@ -117,14 +131,17 @@ vale --config=.vale.ini openspec/specs/solar-calculations/spec.md \
   openspec/specs/annual-calendar/spec.md
 ```
 
-The independent project checks stay `npm run check` (OpenSpec,
-archived tasks, Vitest and TypeScript).
+The workflow also runs `npm run check` (OpenSpec, archived tasks, Vitest
+and TypeScript) in a separate job to verify that the editorial rewrites
+do not break the existing project checks.
 
 ## Next phase
 
-1. Review these four proposed rewrites for semantic equivalence.
-2. Record false positives and undefined vocabulary in the first PR checks.
-3. Apply reviewed changes through the normal OpenSpec workflow.
+1. Review the four rewritten requirements and their split-out subrequirements
+   for semantic equivalence, including the added offline and format scenarios.
+2. Record false positives and undefined vocabulary in the Vale check.
+3. Keep the PR as a draft until reviewers confirm that no implementation
+   guarantees or business behavior were added unintentionally.
 4. Only then consider enforcing deterministic rules; leave semantic review
    to humans. No claim of official ASD-STE100 or PCI-DSS compliance.
 

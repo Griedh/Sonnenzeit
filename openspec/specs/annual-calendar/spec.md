@@ -25,7 +25,8 @@ Nächstes Jahr SHALL change it by one and recalculate dates and seasons.
 - THEN 2026 is displayed again
 
 ### Requirement: Berlin solar time display
-Solar times SHALL use German hour/minute formatting in Europe/Berlin, including DST.
+The calendar SHALL display solar times in the Europe/Berlin time zone,
+including daylight saving time.
 
 #### Scenario: Summer time
 - WHEN 04:00 UTC on June 21, 2026 is displayed
@@ -34,6 +35,14 @@ Solar times SHALL use German hour/minute formatting in Europe/Berlin, including 
 #### Scenario: Winter time
 - WHEN 07:00 UTC on December 21, 2026 is displayed
 - THEN the result is `08:00`
+
+### Requirement: German solar time format
+The calendar SHALL show solar times using the German 24-hour clock with two-digit
+hours and minutes.
+
+#### Scenario: Hour-and-minute format
+- WHEN a solar time is shown in the calendar
+- THEN its displayed format is `HH:mm`
 
 ### Requirement: Current day highlight
 On render, the app SHALL highlight the date matching the device's current date.

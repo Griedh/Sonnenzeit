@@ -31,3 +31,19 @@ jobs:
           fail_level: none
           level: warning
           min_alert_level: warning
+
+  project-checks:
+    name: OpenSpec, tests and TypeScript
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --include=dev --no-audit --no-fund
+      - name: Validate specifications and run existing checks
+        run: npm run check
