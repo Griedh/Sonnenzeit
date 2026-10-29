@@ -1,0 +1,6 @@
+extends: existence
+message: "Review '%s': normative OpenSpec requirements use SHALL; use a factual statement otherwise."
+level: warning
+ignorecase: true
+tokens:
+  - '\b(?:must|should|could)\b'

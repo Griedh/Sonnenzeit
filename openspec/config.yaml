@@ -16,7 +16,9 @@ rules:
   proposal:
     - Reuse existing capability names; state scope and non-goals.
   specs:
-    - Specify observable behavior using SHALL/MUST and concrete WHEN/THEN scenarios.
+    - Specify observable behavior using SHALL (not MUST/SHOULD) and concrete WHEN/THEN scenarios.
+    - Use the controlled English project terms in docs/spec-language/README.md; avoid vague, non-verifiable wording.
+    - Keep observable behavior separate from implementation details.
     - Distinguish current behavior, limitations and proposed changes.
     - Include all retained scenarios in MODIFIED requirements.
   design:
